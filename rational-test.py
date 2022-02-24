@@ -1,12 +1,6 @@
 from hypothesis import given, strategies as st
 import unittest
 
-class Rational:
-    def __init__(self, numer: int, denom: int):
-        self.numerator = numer
-        self.denomenator = denom
-
-
 class TestEncoding(unittest.TestCase):
     @given(st.integers(), st.integers())
     def test_init_takes_numberator_denominator(self, numer, denom):
