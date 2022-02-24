@@ -2,11 +2,18 @@ from hypothesis import given, strategies as st
 import unittest
 
 class Rational:
+    """
+    Represents rational numbers, a/b, where a and b are integers.
+    For details, see https://en.wikipedia.org/wiki/Rational_number
+    """
     def __init__(self, numer: int, denom: int):
         self.numerator = numer
         self.denomenator = denom
 
     def __eq__(self, other) -> bool:
+        """
+        a/b == c/d iff ad == bc
+        """
         return self.numerator*other.denomenator == self.denomenator*other.numerator 
 
 class TestEncoding(unittest.TestCase):
@@ -23,9 +30,6 @@ class TestEncoding(unittest.TestCase):
 
     @given(st.integers(), st.integers(), st.integers())
     def test_equality_for_two_rationals_that_are_multiples_of_each_other(self, numer, denom, multiple):
-        """
-        a/b == c/d  iff ad == bc
-        """
         rat1 = Rational(numer, denom)
         rat2 = Rational(numer*multiple, denom*multiple)
         self.assertEqual(rat1, rat2)
@@ -42,6 +46,7 @@ class TestEncoding(unittest.TestCase):
         else:
             self.assertNotEqual(rat1, rat2)
 
+    # Try writing tests and implementations for multiplication and addition of rationals.
 
 if __name__ == "__main__":
     unittest.main()
