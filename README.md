@@ -1,4 +1,4 @@
-# README hypothesis-example
+# README tdd-hypothesis-example
 
 This is a simple example Dean used to demonstrate test-driven development in Python.
 
