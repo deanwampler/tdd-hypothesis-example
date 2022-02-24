@@ -11,20 +11,20 @@ class Rational:
     """
     def __init__(self, numer: int, denom: int):
         self.numerator = numer
-        self.denomenator = denom
+        self.denominator = denom
 
     def __eq__(self, other) -> bool:
         """
         a/b == c/d iff ad == bc
         """
-        return self.numerator*other.denomenator == self.denomenator*other.numerator 
+        return self.numerator*other.denominator == self.denominator*other.numerator 
 
 class TestEncoding(unittest.TestCase):
     @given(st.integers(), st.integers())
     def test_init_takes_numberator_denominator(self, numer, denom):
         rat = Rational(numer, denom)
         self.assertEqual(numer, rat.numerator)
-        self.assertEqual(denom, rat.denomenator)
+        self.assertEqual(denom, rat.denominator)
 
     @given(st.integers(), st.integers())
     def test_a_rational_equals_itself(self, numer, denom):

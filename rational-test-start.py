@@ -9,7 +9,7 @@ class TestEncoding(unittest.TestCase):
     def test_init_takes_numberator_denominator(self, numer, denom):
         rat = Rational(numer, denom)
         self.assertEqual(numer, rat.numerator)
-        self.assertEqual(denom, rat.denomenator)
+        self.assertEqual(denom, rat.denominator)
 
 
 if __name__ == "__main__":
