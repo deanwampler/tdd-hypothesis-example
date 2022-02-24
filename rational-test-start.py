@@ -1,3 +1,6 @@
+# Example unit tests using Hypothesis for property-based testing.
+# https://hypothesis.readthedocs.io/en/latest/
+
 from hypothesis import given, strategies as st
 import unittest
 
