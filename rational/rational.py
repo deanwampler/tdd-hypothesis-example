@@ -1,3 +1,4 @@
+from utilities import check_int
 
 class NonIntegerString(ValueError):
     def __init__(self, msg: str):
@@ -19,20 +20,14 @@ class Rational:
     @classmethod
     def from_str(toss, numer_str: str, denom_str: str):
         errors=[]
-        numer=0
-        denom=0
-        try:
-            numer=int(numer_str)
-        except ValueError:
+        if not check_int(numer_str):
             errors.append(f"Input string for numerator, '{numer_str}', is not an integer.")
-        try:
-            denom=int(denom_str)
-        except ValueError:
+        if not check_int(denom_str):
             errors.append(f"Input string for denominator, '{denom_str}', is not an integer.")
         if len(errors) > 0:
             raise NonIntegerString(" ".join(errors))
 
-        return Rational(int(numer), int(denom))
+        return Rational(int(numer_str), int(denom_str))
 
     def __eq__(self, other) -> bool:
         """

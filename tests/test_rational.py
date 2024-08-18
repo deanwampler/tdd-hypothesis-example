@@ -4,6 +4,7 @@
 from hypothesis import given, strategies as st
 import unittest
 from rational import Rational
+from test_utilities import nonzero_integers
 
 class TestRational(unittest.TestCase):
     """
@@ -18,10 +19,6 @@ class TestRational(unittest.TestCase):
     What are the requirements for valid strings, e.g., for "M" and "N"?
     If an invalid string is provided, how should the error be handled?
     """
-
-    # Disallow zero for the demoninator!
-
-    nonzero_integers = st.integers().filter(lambda i: i != 0)
 
     @given(st.integers(), nonzero_integers)
     def test_init_takes_numerator_denominator(self, numer, denom):
