@@ -16,3 +16,5 @@ See also other properties described in the [rational Wikipedia page](https://en.
 Also, try adding a second way to construct instances of `Rational` that accepts a string
 argument, e.g., `"M/N"` for integers `M` and `N`. Now you really have to think about handling input errors! What are the requirements for valid `M` and `N` strings?
 If an invalid string is provided, how should the error be handled?
+
+Compare implementations I added in the [`more-examples` repo branch](https://github.com/deanwampler/tdd-hypothesis-example/tree/more-examples).
