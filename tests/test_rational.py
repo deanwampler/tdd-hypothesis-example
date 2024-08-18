@@ -18,7 +18,12 @@ class TestRational(unittest.TestCase):
     What are the requirements for valid strings, e.g., for "M" and "N"?
     If an invalid string is provided, how should the error be handled?
     """
-    @given(st.integers(), st.integers())
+
+    # Disallow zero for the demoninator!
+
+    nonzero_integers = st.integers().filter(lambda i: i != 0)
+
+    @given(st.integers(), nonzero_integers)
     def test_init_takes_numerator_denominator(self, numer, denom):
         """
         A trivial test, but it gets us started.
@@ -27,7 +32,15 @@ class TestRational(unittest.TestCase):
         self.assertEqual(numer, rat.numerator)
         self.assertEqual(denom, rat.denominator)
 
-    @given(st.integers(), st.integers())
+    @given(st.integers())
+    def test_zero_denominator_raises(self, numer):
+        """
+        Don't allow zero for the denominator!!
+        """
+        with self.assertRaises(ValueError):
+            rat = Rational(numer, 0)
+
+    @given(st.integers(), nonzero_integers)
     def test_a_rational_equals_itself(self, numer, denom):
         """
         This test passes without any code changes, e.g., adding a
@@ -37,7 +50,7 @@ class TestRational(unittest.TestCase):
         rat = Rational(numer, denom)
         self.assertEqual(rat, rat)
 
-    @given(st.integers(), st.integers())
+    @given(st.integers(), nonzero_integers)
     def test_identical_rationals_are_equal(self, numer, denom):
         """
         Would this one pass if we deleted (or commented out) our custom __eq__ method? 
@@ -47,7 +60,7 @@ class TestRational(unittest.TestCase):
         rat2 = Rational(numer, denom)
         self.assertEqual(rat1, rat2)
 
-    @given(st.integers(), st.integers(), st.integers())
+    @given(st.integers(), nonzero_integers, nonzero_integers)
     def test_equality_for_two_rationals_with_num_and_dom_that_are_multiples_of_each_other(self, numer, denom, multiple):
         """
         Rule: a/b == c/d iff ad == bc
@@ -57,7 +70,7 @@ class TestRational(unittest.TestCase):
         rat2 = Rational(numer, denom)
         self.assertEqual(rat1, rat2)
 
-    @given(st.integers(), st.integers(), st.integers(), st.integers())
+    @given(st.integers(), nonzero_integers, st.integers(), nonzero_integers)
     def test_equality_for_two_rationals_that_are_not_multiples_of_each_other(self, numer1, denom1, numer2, denom2):
         """
         Rule: a/b == c/d iff ad == bc
