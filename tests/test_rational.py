@@ -3,27 +3,23 @@
 
 from hypothesis import given, strategies as st
 import unittest
+from rational import Rational
 
-class Rational:
+class TestRational(unittest.TestCase):
     """
-    Represents rational numbers, a/b, where a and b are integers.
-    For details, see https://en.wikipedia.org/wiki/Rational_number
+    Test the features implemented curently by Rational.
+    Add new tests for Rational arithmetic operations, like multiplication and addition,
+    watch the test fail, then implement the feature and ensure the test now passes.
+    See also other properties described in the Rational Wikipedia page:
+    https://en.wikipedia.org/wiki/Rational_number
+    
+    Also, try adding a second way to construct Rationals that accepts a string
+    argument, "M/N". (Now you really have to think about handling input errors!) 
+    What are the requirements for valid strings, e.g., for "M" and "N"?
+    If an invalid string is provided, how should the error be handled?
     """
-    def __init__(self, numer: int, denom: int):
-        self.numerator = numer
-        self.denominator = denom
-
-    def __eq__(self, other) -> bool:
-        """
-        a/b == c/d iff ad == bc
-        """
-        return self.numerator*other.denominator == self.denominator*other.numerator 
-
-# Here are a number of tests after several iterations, with corresponding code above
-# in Rational.
-class TestEncoding(unittest.TestCase):
     @given(st.integers(), st.integers())
-    def test_init_takes_numberator_denominator(self, numer, denom):
+    def test_init_takes_numerator_denominator(self, numer, denom):
         """
         A trivial test, but it gets us started.
         """
@@ -44,27 +40,30 @@ class TestEncoding(unittest.TestCase):
     @given(st.integers(), st.integers())
     def test_identical_rationals_are_equal(self, numer, denom):
         """
-        Does this one pass without a custom __eq__ implementation?
+        Would this one pass if we deleted (or commented out) our custom __eq__ method? 
+        Try it!
         """
         rat1 = Rational(numer, denom)
         rat2 = Rational(numer, denom)
         self.assertEqual(rat1, rat2)
 
     @given(st.integers(), st.integers(), st.integers())
-    def test_equality_for_two_rationals_that_are_multiples_of_each_other(self, numer, denom, multiple):
+    def test_equality_for_two_rationals_with_num_and_dom_that_are_multiples_of_each_other(self, numer, denom, multiple):
         """
         Rule: a/b == c/d iff ad == bc
-        This is not a particular comprehensive test, because the two instances are always equal.
+        Since a*M/b*M == a/b, then a*M/b*M == c/d
         """
-        rat1 = Rational(numer, denom)
-        rat2 = Rational(numer*multiple, denom*multiple)
+        rat1 = Rational(numer*multiple, denom*multiple)
+        rat2 = Rational(numer, denom)
         self.assertEqual(rat1, rat2)
 
     @given(st.integers(), st.integers(), st.integers(), st.integers())
     def test_equality_for_two_rationals_that_are_not_multiples_of_each_other(self, numer1, denom1, numer2, denom2):
         """
         Rule: a/b == c/d iff ad == bc
-        This is a better test, because it generates instances that may be equivalent or not.
+        This is a better test, because it randomly generates different instances.
+        However, the text has to check for the case where the two values happen to be
+        equivalent!
         """
         rat1 = Rational(numer1, denom1)
         rat2 = Rational(numer2, denom2)
@@ -72,14 +71,6 @@ class TestEncoding(unittest.TestCase):
             self.assertEqual(rat1, rat2)
         else:
             self.assertNotEqual(rat1, rat2)
-
-    # Your turn! Try writing tests and corresponding methods in Rational
-    # for multiplication and addition. Try other properties described in
-    # the Wikipedia page.
-    # Try adding a second way to construct Rationals that accepts a string
-    # argument, "M/N". Now you really have to think about error handling. 
-    # What are the requirements for valid strings, e.g., for "M" and "N"?
-    # If an invalid string is provided, how should the error be handled?
 
 if __name__ == "__main__":
     unittest.main()
