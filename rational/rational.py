@@ -8,6 +8,7 @@ class Rational:
     """
     Represents rational numbers, a/b, where a and b are integers.
     For details, see https://en.wikipedia.org/wiki/Rational_number
+    Consider implementing additional operators: https://docs.python.org/3/library/operator.html
 
     Raises a `ValueError` if the denominator is zero.
     """
@@ -35,8 +36,47 @@ class Rational:
         """
         return self.numerator*other.denominator == self.denominator*other.numerator 
 
-    # def __lt__(self, other) -> bool:
-    #     """
-    #     a/b < c/d iff ad < bc
-    #     """
-    #     return self.numerator*other.denominator < self.denominator*other.numerator 
+    def __lt__(self, other) -> bool:
+        """
+        a/b < c/d iff ad < bc
+        """
+        return self.numerator*other.denominator < self.denominator*other.numerator 
+
+    def __le__(self, other) -> bool:
+        """
+        a/b <= c/d iff ad <= bc
+        """
+        return self.numerator*other.denominator <= self.denominator*other.numerator 
+
+    def __gt__(self, other) -> bool:
+        """
+        a/b > c/d iff ad > bc
+        """
+        return self.numerator*other.denominator > self.denominator*other.numerator 
+
+    def __ge__(self, other) -> bool:
+        """
+        a/b >= c/d iff ad >= bc
+        """
+        return self.numerator*other.denominator >= self.denominator*other.numerator 
+
+    def __add__(self, other):
+        """
+        a/b + c/d == (ad + bc) / bd
+        """
+        return Rational(self.numerator*other.denominator + self.denominator*other.numerator,
+            self.denominator*other.denominator)
+
+    def __sub__(self, other):
+        """
+        a/b - c/d == (ad - bc) / bd
+        """
+        return Rational(self.numerator*other.denominator - self.denominator*other.numerator,
+            self.denominator*other.denominator)
+
+
+    def __mul__(self, other):
+        """
+        a/b * c/d == ac / bd
+        """
+        return Rational(self.numerator*other.numerator, self.denominator*other.denominator)
