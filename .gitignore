@@ -148,3 +148,6 @@ dictionary.dic
 
 # Man pages
 man
+
+# Some strange generated file:
+tests/.com.apple.backupd.*

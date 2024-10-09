@@ -4,6 +4,7 @@
 from hypothesis import given, strategies as st
 import unittest
 from rational import Rational
+from math import gcd
 
 class TestRational(unittest.TestCase):
     """
@@ -26,11 +27,14 @@ class TestRational(unittest.TestCase):
     @given(st.integers(), nonzero_integers)
     def test_init_takes_numerator_denominator(self, numer, denom):
         """
-        A trivial test, but it gets us started.
+        A "relatively-trivial" test, but note that the returned
+        numerator and denominator will be divided by their greatest
+        common divisor.
         """
         rat = Rational(numer, denom)
-        self.assertEqual(numer, rat.numerator)
-        self.assertEqual(denom, rat.denominator)
+        divisor = gcd(numer, denom)
+        self.assertEqual(numer // divisor, rat.numerator)
+        self.assertEqual(denom // divisor, rat.denominator)
 
     @given(st.integers())
     def test_zero_denominator_raises(self, numer):
@@ -43,9 +47,9 @@ class TestRational(unittest.TestCase):
     @given(st.integers(), nonzero_integers)
     def test_a_rational_equals_itself(self, numer, denom):
         """
-        This test passes without any code changes, e.g., adding a
-        custom __eq__ method. Ask yourself, is this actually testing 
-        instance equality or just locations in memory?
+        This test passes without adding a custom __eq__ method. 
+        Without the __eq__ method, would this test actually use
+        "logical" instance equality or just locations in memory?
         """
         rat = Rational(numer, denom)
         self.assertEqual(rat, rat)
@@ -71,11 +75,11 @@ class TestRational(unittest.TestCase):
         self.assertEqual(rat1, rat2)
 
     @given(st.integers(), nonzero_integers, st.integers(), nonzero_integers)
-    def test_equality_for_two_rationals_that_are_not_multiples_of_each_other(self, numer1, denom1, numer2, denom2):
+    def test_two_non_identical_rationals_are_not_equal_to_each_other(self, numer1, denom1, numer2, denom2):
         """
         Rule: a/b == c/d iff ad == bc
         This is a better test, because it randomly generates different instances.
-        However, the text has to check for the case where the two values happen to be
+        However, the test has to check for the case where the two values happen to be
         equivalent!
         """
         rat1 = Rational(numer1, denom1)
