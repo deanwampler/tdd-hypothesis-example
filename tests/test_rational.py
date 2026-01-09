@@ -20,7 +20,7 @@ class TestRational(unittest.TestCase):
     If an invalid string is provided, how should the error be handled?
     """
 
-    # Disallow zero for the demoninator!
+    # Disallow zero for the denominator!
 
     nonzero_integers = st.integers().filter(lambda i: i != 0)
 
