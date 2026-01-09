@@ -8,7 +8,7 @@ from math import gcd
 
 class TestRational(unittest.TestCase):
     """
-    Test the features implemented curently by Rational.
+    Test the features implemented currently by Rational.
     Add new tests for Rational arithmetic operations, like multiplication and addition,
     watch the test fail, then implement the feature and ensure the test now passes.
     See also other properties described in the Rational Wikipedia page:
